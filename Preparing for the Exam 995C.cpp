@@ -24,51 +24,23 @@ signed main() {
     }
 }
 
-string conv(int p, int n){
-    string s = "";
-    for(int i=1; i<=n; ++i){
-        if(i==p) continue;
-        s+=to_string(i);
-    }
-    return s;
-}
-
 void solve(){
     int n,m,k;
     cin>>n>>m>>k;
-    vector<string> qlist;
-    for(int i=0; i<m; ++i){
-        int p;
-        cin>>p;
-        qlist.push_back(conv(p, n));
-    }
-    string knwn = "";
+    vector<int> a(m), q(k);
+    for(int i=0; i<m; ++i) cin>>a[i];
+    for(int i=0; i<k; ++i) cin>>q[i];
+    vector<int> used(n+1);
     for(int i=0; i<k; ++i){
-        int p;
-        cin>>p;
-        knwn+=to_string(p);
+        used[q[i]] = 1;
     }
-    string ans = "";
-    for(auto x:qlist){
-        // x is my string to check if available inside knwn
-        // as these are sorted, 2 pointer might work, lets see
-        int i = 0, j = 0;
-        while(i<knwn.size()){
-            if(knwn[i]==x[j]){
-                i++; j++;
-            } else{
-                i++;
-            }
-        }
-        j=j-1;
-        if(j==x.size()-1){
-            ans+='1';
+    int l = q.size();
+    for(int i=0; i<m; ++i){
+        if(l==n or (l==n-1 and !used[a[i]])){
+            cout<<"1";
         } else{
-            ans+='0';
+            cout<<"0";
         }
     }
-    cout<<ans<<"\n";
-    // seems like its working
-    // ahh...it works but takes a lot of time which resulted in tle
-    // i'll fix it later :')
+    cout<<"\n";
 }
